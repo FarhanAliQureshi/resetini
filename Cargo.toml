@@ -3,4 +3,8 @@ name = "resetini"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
+[dependencies.windows-sys]
+features = [
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+]
