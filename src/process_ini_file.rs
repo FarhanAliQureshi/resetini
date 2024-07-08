@@ -86,3 +86,9 @@ fn reset_key(line: &String) -> String {
 
     key.to_string() + "="
 }
+
+pub fn write_lines_to_file(filename: &String, lines: &Vec<String>) {
+    use std::fs;
+    
+    fs::write(filename, lines.join("\n")).expect("");
+}

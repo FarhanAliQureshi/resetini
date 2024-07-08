@@ -10,8 +10,10 @@ pub fn display_help() {
     info_msgbox(&help, None);
 }
 
+#[allow(dead_code)]
 pub fn display_string_vector(strvec: &Vec<String>) {
-    // For testing. Merge all elements of given string vector and display 
+    // For testing and debugging. 
+    // Merge all elements of given string vector and display 
     // it in a message box.
     // Example:
     //      let v = vec!["string1".to_string(), "string2".to_string()]

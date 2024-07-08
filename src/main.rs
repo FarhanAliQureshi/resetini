@@ -8,8 +8,6 @@ mod ui_output_funcs;
 use msgbox_func::*;
 use process_ini_file::*;
 use validation_funcs::*;
-use ui_output_funcs::*;
-use windows_sys::Win32::Foundation::ERROR_FILE_SYSTEM_LIMITATION;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -38,12 +36,9 @@ fn main() {
         return;
     }
 
-    display_string_vector(&file_lines);
-    // let (key, value) = file_lines[0].split_once("=").unwrap();
-    // msgbox(&key.to_string(), None);
-    // msgbox(&value.to_string(), None);
-
+    // Reset (delete) values of given keys
     let modified_lines = reset_keys_values(&file_lines, &key_names);
-    display_string_vector(&modified_lines);
 
+    // Write modified lines to source INI file
+    write_lines_to_file(&filename, &modified_lines);
 }
