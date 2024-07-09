@@ -26,7 +26,7 @@ fn main() {
     let key_names: Vec<String> = args[2..].to_vec();
 
     // Read INI file into memory
-    let file_lines = match read_lines_from_file(&filename) {
+    let mut file_lines = match read_lines_from_file(&filename) {
         Ok(lines_read) => lines_read,
         Err(e) => {
             err_msgbox(&e, None);
@@ -40,10 +40,10 @@ fn main() {
     }
 
     // Reset (delete) values of given keys
-    let modified_lines = reset_keys_values(&file_lines, &key_names);
+    reset_keys_values(&mut file_lines, &key_names);
 
     // Write modified lines to source INI file
-    match write_lines_to_file(&filename, &modified_lines) {
+    match write_lines_to_file(&filename, &file_lines) {
         Ok(_) => (),
         Err(e) => {
             // If there was any error during writing to output file then

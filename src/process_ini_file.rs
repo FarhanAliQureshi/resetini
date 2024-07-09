@@ -22,49 +22,30 @@ pub fn read_lines_from_file(filename: &String) -> Result<Vec<String>, String> {
     Ok(lines)
 }
 
-pub fn reset_keys_values(lines: &Vec<String>, keys: &Vec<String>) -> Vec<String> {
-    let mut modified_lines: Vec<String> = Vec::new();
-
+pub fn reset_keys_values(lines: &mut Vec<String>, keys: &Vec<String>) {
     for line in lines {
-        // Trim all white spaces from line
+        // Trim all (leading and trailing) white spaces from line before processing it
         let trimmed = line.trim();
         
-        // Ignore empty lines
-        if trimmed == "" {
-            modified_lines.push(line.clone());
-            continue;
+        // Skip empty lines
+        if trimmed == "" { continue; }
+        // Skip lines we don't want to process
+        match trimmed.chars().nth(0).unwrap_or('\0') {
+            // Skip comments and section declaration
+            '#' | ';' | '[' => continue,
+            // Let rest of cases get check by (any) following guard clauses
+            _ => (),
         }
-        // Ignore comments
-        if trimmed.chars().nth(0).unwrap() == '#' {
-            modified_lines.push(line.clone());
-            continue;
-        }
-        if trimmed.chars().nth(0).unwrap() == ';' {
-            modified_lines.push(line.clone());
-            continue;
-        }
-        // Ignore section declaration
-        if trimmed.chars().nth(0).unwrap() == '[' {
-            modified_lines.push(line.clone());
-            continue;
-        }
-        // Confirm it's a key value line
-        if trimmed.contains("=") {
-            // Does the key matches with one of given keys' names
+
+        // Confirm there is a key value pair in this line, otherwise skip the line
+        if trimmed.contains('=') {
+            // Does the key's name matches with one of the given keys' names
             if key_matches(trimmed, &keys) {
                 // If key name matches then reset it's value
-                modified_lines.push(reset_key(&line));
-            } else {
-                // If key name doesn't match then ignore the line
-                modified_lines.push(line.clone());
+                reset_key(line);
             }
-        } else {
-            // If line is not a key value then ignore it
-            modified_lines.push(line.clone());
-        }
+        } 
     }
-
-    modified_lines
 }
 
 fn key_matches(line: &str, keys: &Vec<String>) -> bool {
@@ -83,13 +64,13 @@ fn key_matches(line: &str, keys: &Vec<String>) -> bool {
     return false;
 }
 
-fn reset_key(line: &String) -> String {
+fn reset_key(line: &mut String) {
     let (key, _) = match line.split_once("=") {
         None => (line.as_str(), ""),
         Some(s) => s,
     };
 
-    key.to_string() + "="
+    *line = key.to_string() + "=";
 }
 
 pub fn write_lines_to_file(filename: &String, lines: &Vec<String>) -> Result<String, String> {
