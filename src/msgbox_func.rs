@@ -8,12 +8,12 @@ fn win_msgbox(message: &String, caption: Option<&String>, style: Option<&u32>) {
     // If no optional caption is given (None) then use default caption string
     let expanded_caption = caption.unwrap_or(&default_caption);
 
-    // Win32API expect c-style string which are terminated with null character
+    // Win32API expect c-style string which are terminated with null character.
     // Therefore, add null character to message and caption strings.
     let c_msg = format!("{}\0", message);
     let c_caption = format!("{}\0", expanded_caption);
 
-    // If not msgbox style is given then use default style of just an OK button
+    // If msgbox style is not given then use default style of just an OK button
     let expanded_style = style.unwrap_or(&MB_OK).clone();
 
     // Calling Win32 API is unsafe 

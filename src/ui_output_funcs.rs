@@ -1,11 +1,16 @@
 use crate::msgbox_func::*;
 
 pub fn display_help() {
-    let mut help = String::from("Usage:\n\nResetINI <filename> <key_name1> <key_name2> ...");
-    help += "\n\n\n";
-    help += "<filename>\tINI Filename with path\n";
-    help += "<key_name1>\tKey name to reset it's value\n";
-    help += "\n\nYou can give as many key names as needed after the filename, separated by a space.";
+    let help = String::from("Usage:
+
+ResetINI <filename> <key_name1> <key_name2> ...
+
+<filename>\tINI Filename with path
+<key_name1>\tKey name to reset it's value
+
+You can give as many key names as needed after the filename, separated by a space.
+
+https://github.com/FarhanAliQureshi/resetini");
 
     info_msgbox(&help, None);
 }

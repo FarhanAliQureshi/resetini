@@ -1,33 +1,32 @@
-pub fn read_lines_from_file(filename: &String) -> Option<Vec<String>> {
+pub fn read_lines_from_file(filename: &String) -> Result<Vec<String>, String> {
     use std::{
         fs::File,
         io::{prelude::*, BufReader},
     };
 
     if filename == "" {
-        return None;
+        return Err(String::from("No filename is given"));
     }
 
     let file = match File::open(filename) {
-        Ok(file) => file,
-        Err(_) => {
-            return None;
-        },
+        Ok(f) => f,
+        Err(e) => return Err(format!("Error opening file: {}\n\nError:{}", filename, e)),
     };
 
+    // Read all lines (from INI file) into vector of strings
     let buf = BufReader::new(file);
     let lines = buf.lines()
-        .map(|l| l.expect("Could not parse line"))
+        .map(|l| l.unwrap_or("Could not parse line".to_string()))
         .collect();
     
-    Some(lines)
+    Ok(lines)
 }
 
 pub fn reset_keys_values(lines: &Vec<String>, keys: &Vec<String>) -> Vec<String> {
     let mut modified_lines: Vec<String> = Vec::new();
 
     for line in lines {
-        // Trim all whie spaces from line
+        // Trim all white spaces from line
         let trimmed = line.trim();
         
         // Ignore empty lines
@@ -69,7 +68,10 @@ pub fn reset_keys_values(lines: &Vec<String>, keys: &Vec<String>) -> Vec<String>
 }
 
 fn key_matches(line: &str, keys: &Vec<String>) -> bool {
-    let (line_key, _) = line.split_once("=").unwrap();
+    let (line_key, _) = match line.split_once("=") {
+        None => (line, ""),
+        Some(s) => s,
+    };
 
     for key in keys {
         // Ignore text case
@@ -82,13 +84,21 @@ fn key_matches(line: &str, keys: &Vec<String>) -> bool {
 }
 
 fn reset_key(line: &String) -> String {
-    let (key, _) = line.split_once("=").unwrap();
+    let (key, _) = match line.split_once("=") {
+        None => (line.as_str(), ""),
+        Some(s) => s,
+    };
 
     key.to_string() + "="
 }
 
-pub fn write_lines_to_file(filename: &String, lines: &Vec<String>) {
+pub fn write_lines_to_file(filename: &String, lines: &Vec<String>) -> Result<String, String> {
     use std::fs;
     
-    fs::write(filename, lines.join("\n")).expect("");
+    // Flatten Vec<String> into a str slice and write it to the output file.
+    // Handle error and return a formatted error message string.
+    return match fs::write(filename, lines.join("\n")) {
+        Err(e) => Err(format!("Error writing to file: {}\n\nError: {}", filename, e)),
+        Ok(_) => Ok(String::new()),
+    };
 }

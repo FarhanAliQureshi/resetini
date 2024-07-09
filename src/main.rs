@@ -15,18 +15,21 @@ fn main() {
         return;
     }
 
-    // After user arguments filters, at this point, we are sure that the args length 
-    // is greater than 1, therefore, we are sure we can access 2nd element.
+    // We can't rely on validate_args() as it can change in future. Therefore, we'll
+    // check minimum number of arguments before using them.
+    if args.len() < 3 {
+        return;
+    }
+    // First argument is a filename (may include path)
     let filename = args[1].clone();
-    // We are also sure that args length is greater than 2. Everything after filename
-    // are key names.
+    // Everything after filename are key names.
     let key_names: Vec<String> = args[2..].to_vec();
 
     // Read INI file into memory
     let file_lines = match read_lines_from_file(&filename) {
-        Some(lines_read) => lines_read,
-        None => {
-            err_msgbox(&format!("Error reading file: {}", filename), None);
+        Ok(lines_read) => lines_read,
+        Err(e) => {
+            err_msgbox(&e, None);
             return;
         },
     };
@@ -40,5 +43,13 @@ fn main() {
     let modified_lines = reset_keys_values(&file_lines, &key_names);
 
     // Write modified lines to source INI file
-    write_lines_to_file(&filename, &modified_lines);
+    match write_lines_to_file(&filename, &modified_lines) {
+        Ok(_) => (),
+        Err(e) => {
+            // If there was any error during writing to output file then
+            // display it to the user.
+            err_msgbox(&e, None);
+            return;
+        },
+    };
 }
