@@ -1,5 +1,5 @@
-use crate::ui_output_funcs::*;
-use crate::msgbox_func::*;
+use crate::gui_io::*;
+use crate::messagebox::*;
 
 pub fn validate_args(args: &Vec<String>) -> bool {
     // If no command-line argument is given then display help and exit

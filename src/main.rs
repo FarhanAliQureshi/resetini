@@ -1,13 +1,13 @@
 #![windows_subsystem = "windows"]
 
-mod msgbox_func;
+mod messagebox;
 mod process_ini_file;
-mod validation_funcs;
-mod ui_output_funcs;
+mod input_validation;
+mod gui_io;
 
-use msgbox_func::*;
+use messagebox::*;
 use process_ini_file::*;
-use validation_funcs::*;
+use input_validation::*;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();

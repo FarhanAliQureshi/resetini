@@ -1,4 +1,4 @@
-use crate::msgbox_func::*;
+use crate::messagebox::*;
 
 pub fn display_help() {
     let help = String::from("Usage:
