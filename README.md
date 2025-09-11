@@ -7,7 +7,7 @@ Resets given keys' values in given INI file.
 * For a release build, run: `cargo build --release`
 * For Windows 32-bit static release build, run: `cargo build --config .cargo/win32_static.toml --release`
 > [!IMPORTANT]
-> Build a Windows executable binary as this project expects to run on Windows.
+> Build a Windows executable binary as this program expects to run on Windows.
 
 ## External Crates/Libraries  
-* `windows-sys` is used to display message boxes (in case of error) on Windows operating systems. It also helps to not splash terminal window in automated launch on startup.
+* `windows-sys` is used to display message boxes (in case of error) on Windows operating systems. It also helps to not splash terminal window when running this program.
