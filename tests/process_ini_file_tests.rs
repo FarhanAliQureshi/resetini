@@ -46,6 +46,27 @@ fn test_empty_key_for_reset_keys_values() {
     assert_eq!(input_lines[0], expected_result);
 }
 
+#[test]
+fn test_normal_asterisk_wildcard_for_reset_keys_values() {
+    let mut input_lines = vec![
+        "key1=value1".to_string(),
+        "key2=value2".to_string(),
+        "key3=value3".to_string(),
+    ];
+    let elements_count = input_lines.len();
+    let input_keys = vec!["*".to_string()];
+    let expected_result = vec![
+        "key1=".to_string(),
+        "key2=".to_string(),
+        "key3=".to_string(),
+    ];
+
+    reset_keys_values(&mut input_lines, &input_keys);
+
+    assert_eq!(input_lines.len(), elements_count, "Source should have same number of keys after removing values");
+    assert_eq!(input_lines, expected_result);
+}
+
 // *** write_lines_to_file()
 #[test]
 fn test_normal_for_write_lines_to_file() {

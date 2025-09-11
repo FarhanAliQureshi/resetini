@@ -55,6 +55,12 @@ fn key_matches(line: &str, keys: &Vec<String>) -> bool {
     };
 
     for key in keys {
+        // If asterisk is supplied as a wildcard to match 
+        // all keys then reset all keys.
+        if *key == "*".to_string() {
+            return true;
+        }
+
         // Ignore text case
         if line_key.to_lowercase() == key.to_lowercase() {
             return true;
