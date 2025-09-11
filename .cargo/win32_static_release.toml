@@ -1,0 +1,6 @@
+[build]
+target = ["i686-pc-windows-msvc"]
+
+[target.i686-pc-windows-msvc]
+# 32-bit executable will be statically link
+rustflags = ["-C", "target-feature=+crt-static"]
