@@ -5,7 +5,7 @@ Resets given keys' values in given INI file.
 * [Install Rust](https://www.rust-lang.org/tools/install)
 * Clone the repository
 * For a release build, run: `cargo build --release`
-* For Windows 32-bit static release build, run: `cargo build --config .cargo\win32_static.toml --release`
+* For Windows 32-bit static release build, run: `cargo build --config .cargo/win32_static.toml --release`
 > [!IMPORTANT]
 > Build a Windows executable binary as this project expects to run on Windows.
 
