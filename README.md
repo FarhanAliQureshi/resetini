@@ -13,7 +13,7 @@ Resets (to empty) values of keys in an INI file.
 Usage: `ResetINI <filename> <key_name1> <key_name2> ...`
 
 Where:
-| Option | Notes |
+| Argument | Notes |
 |---|---|
 | `<filename>` | INI filename with path |
 | `<key_name1>` | Key name to reset it's value |
@@ -24,7 +24,7 @@ Where:
 ## External Crates/Libraries  
 * `windows-sys` is used to display message boxes (in case of error) on Windows operating systems. It also helps to not splash terminal window when running this program.
 
-## Real World Usage
+## Real world usage
 I have been using it for about a year now (since 2024). This utility silently runs in a script when resetting the test environment in a virtual machine. It is a small utility and it runs fast even when other programs are running in parallel.
 
 ## License
