@@ -10,6 +10,8 @@ ResetINI <filename> <key_name1> <key_name2> ...
 
 You can give as many key names as needed after the filename, separated by a space.
 
+If you supply wildcard '*' (without quotes) as key name then values for all keys will be reset to empty.
+
 https://github.com/FarhanAliQureshi/resetini");
 
     info_msgbox(&help, None);
